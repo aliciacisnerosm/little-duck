@@ -1,0 +1,1268 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     estatuto -> asignacion
+Rule 2     estatuto -> condicion
+Rule 3     estatuto -> escritura
+Rule 4     condicion -> condicion_aux bloque SEMICOLON
+Rule 5     condicion -> condicion_aux bloque ELSE bloque SEMICOLON
+Rule 6     condicion_aux -> IF LEFTPAR expresion RIGHTPAR
+Rule 7     asignacion -> ID EQUALS expresion SEMICOLON
+Rule 8     expresion -> exp comp
+Rule 9     expresion -> exp
+Rule 10    comp -> LESS exp
+Rule 11    comp -> GREATER exp
+Rule 12    comp -> DIFFERENT exp
+Rule 13    exp -> termino op
+Rule 14    exp -> termino
+Rule 15    op -> PLUS exp
+Rule 16    op -> MINUS exp
+Rule 17    termino -> factor
+Rule 18    termino -> factor termino_aux
+Rule 19    termino_aux -> MULTIPLY termino
+Rule 20    termino_aux -> DIVIDE termino
+Rule 21    factor -> LEFTPAR expresion RIGHTPAR
+Rule 22    factor -> factor_aux
+Rule 23    factor_aux -> PLUS varcte
+Rule 24    factor_aux -> MINUS varcte
+Rule 25    factor_aux -> varcte
+Rule 26    varcte -> ID
+Rule 27    varcte -> CTEI
+Rule 28    varcte -> CTEF
+Rule 29    tipo -> INT
+Rule 30    tipo -> FLOAT
+Rule 31    escritura -> PRINT LEFTPAR aux_escritura RIGHTPAR SEMICOLON
+Rule 32    aux_escritura -> expresion
+Rule 33    aux_escritura -> expresion DOT aux_escritura
+Rule 34    aux_escritura -> CTESTRING DOT aux_escritura
+Rule 35    vars -> VAR aux_var
+Rule 36    aux_var -> ID COLON tipo SEMICOLON
+Rule 37    aux_var -> ID COLON tipo SEMICOLON aux_var
+Rule 38    aux_var -> ID COLON aux_var
+Rule 39    programa -> PROGRAM ID COLON vars bloque
+Rule 40    programa -> PROGRAM ID COLON bloque
+Rule 41    bloque -> LEFTCURL aux_bloque RIGHTCURL
+Rule 42    aux_bloque -> estatuto
+Rule 43    aux_bloque -> estatuto aux_bloque
+Rule 44    empty -> <empty>
+
+Terminals, with rules where they appear
+
+COLON                : 36 37 38 39 40
+CTEF                 : 28
+CTEI                 : 27
+CTESTRING            : 34
+DIFFERENT            : 12
+DIVIDE               : 20
+DOT                  : 33 34
+ELSE                 : 5
+EQUALS               : 7
+FLOAT                : 30
+GREATER              : 11
+ID                   : 7 26 36 37 38 39 40
+IF                   : 6
+INT                  : 29
+LEFTCURL             : 41
+LEFTPAR              : 6 21 31
+LESS                 : 10
+MINUS                : 16 24
+MULTIPLY             : 19
+PLUS                 : 15 23
+PRINT                : 31
+PROGRAM              : 39 40
+RIGHTCURL            : 41
+RIGHTPAR             : 6 21 31
+SEMICOLON            : 4 5 7 31 36 37
+VAR                  : 35
+error                : 
+
+Nonterminals, with rules where they appear
+
+asignacion           : 1
+aux_bloque           : 41 43
+aux_escritura        : 31 33 34
+aux_var              : 35 37 38
+bloque               : 4 5 5 39 40
+comp                 : 8
+condicion            : 2
+condicion_aux        : 4 5
+empty                : 
+escritura            : 3
+estatuto             : 42 43
+exp                  : 8 9 10 11 12 15 16
+expresion            : 6 7 21 32 33
+factor               : 17 18
+factor_aux           : 22
+op                   : 13
+programa             : 0
+termino              : 13 14 19 20
+termino_aux          : 18
+tipo                 : 36 37
+varcte               : 23 24 25
+vars                 : 39
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programa
+    (39) programa -> . PROGRAM ID COLON vars bloque
+    (40) programa -> . PROGRAM ID COLON bloque
+
+    PROGRAM         shift and go to state 2
+
+    programa                       shift and go to state 1
+
+state 1
+
+    (0) S' -> programa .
+
+
+
+state 2
+
+    (39) programa -> PROGRAM . ID COLON vars bloque
+    (40) programa -> PROGRAM . ID COLON bloque
+
+    ID              shift and go to state 3
+
+
+state 3
+
+    (39) programa -> PROGRAM ID . COLON vars bloque
+    (40) programa -> PROGRAM ID . COLON bloque
+
+    COLON           shift and go to state 4
+
+
+state 4
+
+    (39) programa -> PROGRAM ID COLON . vars bloque
+    (40) programa -> PROGRAM ID COLON . bloque
+    (35) vars -> . VAR aux_var
+    (41) bloque -> . LEFTCURL aux_bloque RIGHTCURL
+
+    VAR             shift and go to state 7
+    LEFTCURL        shift and go to state 8
+
+    vars                           shift and go to state 5
+    bloque                         shift and go to state 6
+
+state 5
+
+    (39) programa -> PROGRAM ID COLON vars . bloque
+    (41) bloque -> . LEFTCURL aux_bloque RIGHTCURL
+
+    LEFTCURL        shift and go to state 8
+
+    bloque                         shift and go to state 9
+
+state 6
+
+    (40) programa -> PROGRAM ID COLON bloque .
+
+    $end            reduce using rule 40 (programa -> PROGRAM ID COLON bloque .)
+
+
+state 7
+
+    (35) vars -> VAR . aux_var
+    (36) aux_var -> . ID COLON tipo SEMICOLON
+    (37) aux_var -> . ID COLON tipo SEMICOLON aux_var
+    (38) aux_var -> . ID COLON aux_var
+
+    ID              shift and go to state 11
+
+    aux_var                        shift and go to state 10
+
+state 8
+
+    (41) bloque -> LEFTCURL . aux_bloque RIGHTCURL
+    (42) aux_bloque -> . estatuto
+    (43) aux_bloque -> . estatuto aux_bloque
+    (1) estatuto -> . asignacion
+    (2) estatuto -> . condicion
+    (3) estatuto -> . escritura
+    (7) asignacion -> . ID EQUALS expresion SEMICOLON
+    (4) condicion -> . condicion_aux bloque SEMICOLON
+    (5) condicion -> . condicion_aux bloque ELSE bloque SEMICOLON
+    (31) escritura -> . PRINT LEFTPAR aux_escritura RIGHTPAR SEMICOLON
+    (6) condicion_aux -> . IF LEFTPAR expresion RIGHTPAR
+
+    ID              shift and go to state 17
+    PRINT           shift and go to state 19
+    IF              shift and go to state 20
+
+    aux_bloque                     shift and go to state 12
+    estatuto                       shift and go to state 13
+    asignacion                     shift and go to state 14
+    condicion                      shift and go to state 15
+    escritura                      shift and go to state 16
+    condicion_aux                  shift and go to state 18
+
+state 9
+
+    (39) programa -> PROGRAM ID COLON vars bloque .
+
+    $end            reduce using rule 39 (programa -> PROGRAM ID COLON vars bloque .)
+
+
+state 10
+
+    (35) vars -> VAR aux_var .
+
+    LEFTCURL        reduce using rule 35 (vars -> VAR aux_var .)
+
+
+state 11
+
+    (36) aux_var -> ID . COLON tipo SEMICOLON
+    (37) aux_var -> ID . COLON tipo SEMICOLON aux_var
+    (38) aux_var -> ID . COLON aux_var
+
+    COLON           shift and go to state 21
+
+
+state 12
+
+    (41) bloque -> LEFTCURL aux_bloque . RIGHTCURL
+
+    RIGHTCURL       shift and go to state 22
+
+
+state 13
+
+    (42) aux_bloque -> estatuto .
+    (43) aux_bloque -> estatuto . aux_bloque
+    (42) aux_bloque -> . estatuto
+    (43) aux_bloque -> . estatuto aux_bloque
+    (1) estatuto -> . asignacion
+    (2) estatuto -> . condicion
+    (3) estatuto -> . escritura
+    (7) asignacion -> . ID EQUALS expresion SEMICOLON
+    (4) condicion -> . condicion_aux bloque SEMICOLON
+    (5) condicion -> . condicion_aux bloque ELSE bloque SEMICOLON
+    (31) escritura -> . PRINT LEFTPAR aux_escritura RIGHTPAR SEMICOLON
+    (6) condicion_aux -> . IF LEFTPAR expresion RIGHTPAR
+
+    RIGHTCURL       reduce using rule 42 (aux_bloque -> estatuto .)
+    ID              shift and go to state 17
+    PRINT           shift and go to state 19
+    IF              shift and go to state 20
+
+    estatuto                       shift and go to state 13
+    aux_bloque                     shift and go to state 23
+    asignacion                     shift and go to state 14
+    condicion                      shift and go to state 15
+    escritura                      shift and go to state 16
+    condicion_aux                  shift and go to state 18
+
+state 14
+
+    (1) estatuto -> asignacion .
+
+    ID              reduce using rule 1 (estatuto -> asignacion .)
+    PRINT           reduce using rule 1 (estatuto -> asignacion .)
+    IF              reduce using rule 1 (estatuto -> asignacion .)
+    RIGHTCURL       reduce using rule 1 (estatuto -> asignacion .)
+
+
+state 15
+
+    (2) estatuto -> condicion .
+
+    ID              reduce using rule 2 (estatuto -> condicion .)
+    PRINT           reduce using rule 2 (estatuto -> condicion .)
+    IF              reduce using rule 2 (estatuto -> condicion .)
+    RIGHTCURL       reduce using rule 2 (estatuto -> condicion .)
+
+
+state 16
+
+    (3) estatuto -> escritura .
+
+    ID              reduce using rule 3 (estatuto -> escritura .)
+    PRINT           reduce using rule 3 (estatuto -> escritura .)
+    IF              reduce using rule 3 (estatuto -> escritura .)
+    RIGHTCURL       reduce using rule 3 (estatuto -> escritura .)
+
+
+state 17
+
+    (7) asignacion -> ID . EQUALS expresion SEMICOLON
+
+    EQUALS          shift and go to state 24
+
+
+state 18
+
+    (4) condicion -> condicion_aux . bloque SEMICOLON
+    (5) condicion -> condicion_aux . bloque ELSE bloque SEMICOLON
+    (41) bloque -> . LEFTCURL aux_bloque RIGHTCURL
+
+    LEFTCURL        shift and go to state 8
+
+    bloque                         shift and go to state 25
+
+state 19
+
+    (31) escritura -> PRINT . LEFTPAR aux_escritura RIGHTPAR SEMICOLON
+
+    LEFTPAR         shift and go to state 26
+
+
+state 20
+
+    (6) condicion_aux -> IF . LEFTPAR expresion RIGHTPAR
+
+    LEFTPAR         shift and go to state 27
+
+
+state 21
+
+    (36) aux_var -> ID COLON . tipo SEMICOLON
+    (37) aux_var -> ID COLON . tipo SEMICOLON aux_var
+    (38) aux_var -> ID COLON . aux_var
+    (29) tipo -> . INT
+    (30) tipo -> . FLOAT
+    (36) aux_var -> . ID COLON tipo SEMICOLON
+    (37) aux_var -> . ID COLON tipo SEMICOLON aux_var
+    (38) aux_var -> . ID COLON aux_var
+
+    INT             shift and go to state 30
+    FLOAT           shift and go to state 31
+    ID              shift and go to state 11
+
+    tipo                           shift and go to state 28
+    aux_var                        shift and go to state 29
+
+state 22
+
+    (41) bloque -> LEFTCURL aux_bloque RIGHTCURL .
+
+    $end            reduce using rule 41 (bloque -> LEFTCURL aux_bloque RIGHTCURL .)
+    SEMICOLON       reduce using rule 41 (bloque -> LEFTCURL aux_bloque RIGHTCURL .)
+    ELSE            reduce using rule 41 (bloque -> LEFTCURL aux_bloque RIGHTCURL .)
+
+
+state 23
+
+    (43) aux_bloque -> estatuto aux_bloque .
+
+    RIGHTCURL       reduce using rule 43 (aux_bloque -> estatuto aux_bloque .)
+
+
+state 24
+
+    (7) asignacion -> ID EQUALS . expresion SEMICOLON
+    (8) expresion -> . exp comp
+    (9) expresion -> . exp
+    (13) exp -> . termino op
+    (14) exp -> . termino
+    (17) termino -> . factor
+    (18) termino -> . factor termino_aux
+    (21) factor -> . LEFTPAR expresion RIGHTPAR
+    (22) factor -> . factor_aux
+    (23) factor_aux -> . PLUS varcte
+    (24) factor_aux -> . MINUS varcte
+    (25) factor_aux -> . varcte
+    (26) varcte -> . ID
+    (27) varcte -> . CTEI
+    (28) varcte -> . CTEF
+
+    LEFTPAR         shift and go to state 37
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 41
+    ID              shift and go to state 32
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    expresion                      shift and go to state 33
+    exp                            shift and go to state 34
+    termino                        shift and go to state 35
+    factor                         shift and go to state 36
+    factor_aux                     shift and go to state 38
+    varcte                         shift and go to state 40
+
+state 25
+
+    (4) condicion -> condicion_aux bloque . SEMICOLON
+    (5) condicion -> condicion_aux bloque . ELSE bloque SEMICOLON
+
+    SEMICOLON       shift and go to state 44
+    ELSE            shift and go to state 45
+
+
+state 26
+
+    (31) escritura -> PRINT LEFTPAR . aux_escritura RIGHTPAR SEMICOLON
+    (32) aux_escritura -> . expresion
+    (33) aux_escritura -> . expresion DOT aux_escritura
+    (34) aux_escritura -> . CTESTRING DOT aux_escritura
+    (8) expresion -> . exp comp
+    (9) expresion -> . exp
+    (13) exp -> . termino op
+    (14) exp -> . termino
+    (17) termino -> . factor
+    (18) termino -> . factor termino_aux
+    (21) factor -> . LEFTPAR expresion RIGHTPAR
+    (22) factor -> . factor_aux
+    (23) factor_aux -> . PLUS varcte
+    (24) factor_aux -> . MINUS varcte
+    (25) factor_aux -> . varcte
+    (26) varcte -> . ID
+    (27) varcte -> . CTEI
+    (28) varcte -> . CTEF
+
+    CTESTRING       shift and go to state 48
+    LEFTPAR         shift and go to state 37
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 41
+    ID              shift and go to state 32
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    aux_escritura                  shift and go to state 46
+    expresion                      shift and go to state 47
+    exp                            shift and go to state 34
+    termino                        shift and go to state 35
+    factor                         shift and go to state 36
+    factor_aux                     shift and go to state 38
+    varcte                         shift and go to state 40
+
+state 27
+
+    (6) condicion_aux -> IF LEFTPAR . expresion RIGHTPAR
+    (8) expresion -> . exp comp
+    (9) expresion -> . exp
+    (13) exp -> . termino op
+    (14) exp -> . termino
+    (17) termino -> . factor
+    (18) termino -> . factor termino_aux
+    (21) factor -> . LEFTPAR expresion RIGHTPAR
+    (22) factor -> . factor_aux
+    (23) factor_aux -> . PLUS varcte
+    (24) factor_aux -> . MINUS varcte
+    (25) factor_aux -> . varcte
+    (26) varcte -> . ID
+    (27) varcte -> . CTEI
+    (28) varcte -> . CTEF
+
+    LEFTPAR         shift and go to state 37
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 41
+    ID              shift and go to state 32
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    expresion                      shift and go to state 49
+    exp                            shift and go to state 34
+    termino                        shift and go to state 35
+    factor                         shift and go to state 36
+    factor_aux                     shift and go to state 38
+    varcte                         shift and go to state 40
+
+state 28
+
+    (36) aux_var -> ID COLON tipo . SEMICOLON
+    (37) aux_var -> ID COLON tipo . SEMICOLON aux_var
+
+    SEMICOLON       shift and go to state 50
+
+
+state 29
+
+    (38) aux_var -> ID COLON aux_var .
+
+    LEFTCURL        reduce using rule 38 (aux_var -> ID COLON aux_var .)
+
+
+state 30
+
+    (29) tipo -> INT .
+
+    SEMICOLON       reduce using rule 29 (tipo -> INT .)
+
+
+state 31
+
+    (30) tipo -> FLOAT .
+
+    SEMICOLON       reduce using rule 30 (tipo -> FLOAT .)
+
+
+state 32
+
+    (26) varcte -> ID .
+
+    MULTIPLY        reduce using rule 26 (varcte -> ID .)
+    DIVIDE          reduce using rule 26 (varcte -> ID .)
+    PLUS            reduce using rule 26 (varcte -> ID .)
+    MINUS           reduce using rule 26 (varcte -> ID .)
+    LESS            reduce using rule 26 (varcte -> ID .)
+    GREATER         reduce using rule 26 (varcte -> ID .)
+    DIFFERENT       reduce using rule 26 (varcte -> ID .)
+    SEMICOLON       reduce using rule 26 (varcte -> ID .)
+    DOT             reduce using rule 26 (varcte -> ID .)
+    RIGHTPAR        reduce using rule 26 (varcte -> ID .)
+
+
+state 33
+
+    (7) asignacion -> ID EQUALS expresion . SEMICOLON
+
+    SEMICOLON       shift and go to state 51
+
+
+state 34
+
+    (8) expresion -> exp . comp
+    (9) expresion -> exp .
+    (10) comp -> . LESS exp
+    (11) comp -> . GREATER exp
+    (12) comp -> . DIFFERENT exp
+
+    SEMICOLON       reduce using rule 9 (expresion -> exp .)
+    DOT             reduce using rule 9 (expresion -> exp .)
+    RIGHTPAR        reduce using rule 9 (expresion -> exp .)
+    LESS            shift and go to state 53
+    GREATER         shift and go to state 54
+    DIFFERENT       shift and go to state 55
+
+    comp                           shift and go to state 52
+
+state 35
+
+    (13) exp -> termino . op
+    (14) exp -> termino .
+    (15) op -> . PLUS exp
+    (16) op -> . MINUS exp
+
+    LESS            reduce using rule 14 (exp -> termino .)
+    GREATER         reduce using rule 14 (exp -> termino .)
+    DIFFERENT       reduce using rule 14 (exp -> termino .)
+    SEMICOLON       reduce using rule 14 (exp -> termino .)
+    DOT             reduce using rule 14 (exp -> termino .)
+    RIGHTPAR        reduce using rule 14 (exp -> termino .)
+    PLUS            shift and go to state 57
+    MINUS           shift and go to state 58
+
+    op                             shift and go to state 56
+
+state 36
+
+    (17) termino -> factor .
+    (18) termino -> factor . termino_aux
+    (19) termino_aux -> . MULTIPLY termino
+    (20) termino_aux -> . DIVIDE termino
+
+    PLUS            reduce using rule 17 (termino -> factor .)
+    MINUS           reduce using rule 17 (termino -> factor .)
+    LESS            reduce using rule 17 (termino -> factor .)
+    GREATER         reduce using rule 17 (termino -> factor .)
+    DIFFERENT       reduce using rule 17 (termino -> factor .)
+    SEMICOLON       reduce using rule 17 (termino -> factor .)
+    DOT             reduce using rule 17 (termino -> factor .)
+    RIGHTPAR        reduce using rule 17 (termino -> factor .)
+    MULTIPLY        shift and go to state 60
+    DIVIDE          shift and go to state 61
+
+    termino_aux                    shift and go to state 59
+
+state 37
+
+    (21) factor -> LEFTPAR . expresion RIGHTPAR
+    (8) expresion -> . exp comp
+    (9) expresion -> . exp
+    (13) exp -> . termino op
+    (14) exp -> . termino
+    (17) termino -> . factor
+    (18) termino -> . factor termino_aux
+    (21) factor -> . LEFTPAR expresion RIGHTPAR
+    (22) factor -> . factor_aux
+    (23) factor_aux -> . PLUS varcte
+    (24) factor_aux -> . MINUS varcte
+    (25) factor_aux -> . varcte
+    (26) varcte -> . ID
+    (27) varcte -> . CTEI
+    (28) varcte -> . CTEF
+
+    LEFTPAR         shift and go to state 37
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 41
+    ID              shift and go to state 32
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    expresion                      shift and go to state 62
+    exp                            shift and go to state 34
+    termino                        shift and go to state 35
+    factor                         shift and go to state 36
+    factor_aux                     shift and go to state 38
+    varcte                         shift and go to state 40
+
+state 38
+
+    (22) factor -> factor_aux .
+
+    MULTIPLY        reduce using rule 22 (factor -> factor_aux .)
+    DIVIDE          reduce using rule 22 (factor -> factor_aux .)
+    PLUS            reduce using rule 22 (factor -> factor_aux .)
+    MINUS           reduce using rule 22 (factor -> factor_aux .)
+    LESS            reduce using rule 22 (factor -> factor_aux .)
+    GREATER         reduce using rule 22 (factor -> factor_aux .)
+    DIFFERENT       reduce using rule 22 (factor -> factor_aux .)
+    SEMICOLON       reduce using rule 22 (factor -> factor_aux .)
+    DOT             reduce using rule 22 (factor -> factor_aux .)
+    RIGHTPAR        reduce using rule 22 (factor -> factor_aux .)
+
+
+state 39
+
+    (23) factor_aux -> PLUS . varcte
+    (26) varcte -> . ID
+    (27) varcte -> . CTEI
+    (28) varcte -> . CTEF
+
+    ID              shift and go to state 32
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    varcte                         shift and go to state 63
+
+state 40
+
+    (25) factor_aux -> varcte .
+
+    MULTIPLY        reduce using rule 25 (factor_aux -> varcte .)
+    DIVIDE          reduce using rule 25 (factor_aux -> varcte .)
+    PLUS            reduce using rule 25 (factor_aux -> varcte .)
+    MINUS           reduce using rule 25 (factor_aux -> varcte .)
+    LESS            reduce using rule 25 (factor_aux -> varcte .)
+    GREATER         reduce using rule 25 (factor_aux -> varcte .)
+    DIFFERENT       reduce using rule 25 (factor_aux -> varcte .)
+    SEMICOLON       reduce using rule 25 (factor_aux -> varcte .)
+    DOT             reduce using rule 25 (factor_aux -> varcte .)
+    RIGHTPAR        reduce using rule 25 (factor_aux -> varcte .)
+
+
+state 41
+
+    (24) factor_aux -> MINUS . varcte
+    (26) varcte -> . ID
+    (27) varcte -> . CTEI
+    (28) varcte -> . CTEF
+
+    ID              shift and go to state 32
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    varcte                         shift and go to state 64
+
+state 42
+
+    (27) varcte -> CTEI .
+
+    MULTIPLY        reduce using rule 27 (varcte -> CTEI .)
+    DIVIDE          reduce using rule 27 (varcte -> CTEI .)
+    PLUS            reduce using rule 27 (varcte -> CTEI .)
+    MINUS           reduce using rule 27 (varcte -> CTEI .)
+    LESS            reduce using rule 27 (varcte -> CTEI .)
+    GREATER         reduce using rule 27 (varcte -> CTEI .)
+    DIFFERENT       reduce using rule 27 (varcte -> CTEI .)
+    SEMICOLON       reduce using rule 27 (varcte -> CTEI .)
+    DOT             reduce using rule 27 (varcte -> CTEI .)
+    RIGHTPAR        reduce using rule 27 (varcte -> CTEI .)
+
+
+state 43
+
+    (28) varcte -> CTEF .
+
+    MULTIPLY        reduce using rule 28 (varcte -> CTEF .)
+    DIVIDE          reduce using rule 28 (varcte -> CTEF .)
+    PLUS            reduce using rule 28 (varcte -> CTEF .)
+    MINUS           reduce using rule 28 (varcte -> CTEF .)
+    LESS            reduce using rule 28 (varcte -> CTEF .)
+    GREATER         reduce using rule 28 (varcte -> CTEF .)
+    DIFFERENT       reduce using rule 28 (varcte -> CTEF .)
+    SEMICOLON       reduce using rule 28 (varcte -> CTEF .)
+    DOT             reduce using rule 28 (varcte -> CTEF .)
+    RIGHTPAR        reduce using rule 28 (varcte -> CTEF .)
+
+
+state 44
+
+    (4) condicion -> condicion_aux bloque SEMICOLON .
+
+    ID              reduce using rule 4 (condicion -> condicion_aux bloque SEMICOLON .)
+    PRINT           reduce using rule 4 (condicion -> condicion_aux bloque SEMICOLON .)
+    IF              reduce using rule 4 (condicion -> condicion_aux bloque SEMICOLON .)
+    RIGHTCURL       reduce using rule 4 (condicion -> condicion_aux bloque SEMICOLON .)
+
+
+state 45
+
+    (5) condicion -> condicion_aux bloque ELSE . bloque SEMICOLON
+    (41) bloque -> . LEFTCURL aux_bloque RIGHTCURL
+
+    LEFTCURL        shift and go to state 8
+
+    bloque                         shift and go to state 65
+
+state 46
+
+    (31) escritura -> PRINT LEFTPAR aux_escritura . RIGHTPAR SEMICOLON
+
+    RIGHTPAR        shift and go to state 66
+
+
+state 47
+
+    (32) aux_escritura -> expresion .
+    (33) aux_escritura -> expresion . DOT aux_escritura
+
+    RIGHTPAR        reduce using rule 32 (aux_escritura -> expresion .)
+    DOT             shift and go to state 67
+
+
+state 48
+
+    (34) aux_escritura -> CTESTRING . DOT aux_escritura
+
+    DOT             shift and go to state 68
+
+
+state 49
+
+    (6) condicion_aux -> IF LEFTPAR expresion . RIGHTPAR
+
+    RIGHTPAR        shift and go to state 69
+
+
+state 50
+
+    (36) aux_var -> ID COLON tipo SEMICOLON .
+    (37) aux_var -> ID COLON tipo SEMICOLON . aux_var
+    (36) aux_var -> . ID COLON tipo SEMICOLON
+    (37) aux_var -> . ID COLON tipo SEMICOLON aux_var
+    (38) aux_var -> . ID COLON aux_var
+
+    LEFTCURL        reduce using rule 36 (aux_var -> ID COLON tipo SEMICOLON .)
+    ID              shift and go to state 11
+
+    aux_var                        shift and go to state 70
+
+state 51
+
+    (7) asignacion -> ID EQUALS expresion SEMICOLON .
+
+    ID              reduce using rule 7 (asignacion -> ID EQUALS expresion SEMICOLON .)
+    PRINT           reduce using rule 7 (asignacion -> ID EQUALS expresion SEMICOLON .)
+    IF              reduce using rule 7 (asignacion -> ID EQUALS expresion SEMICOLON .)
+    RIGHTCURL       reduce using rule 7 (asignacion -> ID EQUALS expresion SEMICOLON .)
+
+
+state 52
+
+    (8) expresion -> exp comp .
+
+    SEMICOLON       reduce using rule 8 (expresion -> exp comp .)
+    DOT             reduce using rule 8 (expresion -> exp comp .)
+    RIGHTPAR        reduce using rule 8 (expresion -> exp comp .)
+
+
+state 53
+
+    (10) comp -> LESS . exp
+    (13) exp -> . termino op
+    (14) exp -> . termino
+    (17) termino -> . factor
+    (18) termino -> . factor termino_aux
+    (21) factor -> . LEFTPAR expresion RIGHTPAR
+    (22) factor -> . factor_aux
+    (23) factor_aux -> . PLUS varcte
+    (24) factor_aux -> . MINUS varcte
+    (25) factor_aux -> . varcte
+    (26) varcte -> . ID
+    (27) varcte -> . CTEI
+    (28) varcte -> . CTEF
+
+    LEFTPAR         shift and go to state 37
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 41
+    ID              shift and go to state 32
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    exp                            shift and go to state 71
+    termino                        shift and go to state 35
+    factor                         shift and go to state 36
+    factor_aux                     shift and go to state 38
+    varcte                         shift and go to state 40
+
+state 54
+
+    (11) comp -> GREATER . exp
+    (13) exp -> . termino op
+    (14) exp -> . termino
+    (17) termino -> . factor
+    (18) termino -> . factor termino_aux
+    (21) factor -> . LEFTPAR expresion RIGHTPAR
+    (22) factor -> . factor_aux
+    (23) factor_aux -> . PLUS varcte
+    (24) factor_aux -> . MINUS varcte
+    (25) factor_aux -> . varcte
+    (26) varcte -> . ID
+    (27) varcte -> . CTEI
+    (28) varcte -> . CTEF
+
+    LEFTPAR         shift and go to state 37
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 41
+    ID              shift and go to state 32
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    exp                            shift and go to state 72
+    termino                        shift and go to state 35
+    factor                         shift and go to state 36
+    factor_aux                     shift and go to state 38
+    varcte                         shift and go to state 40
+
+state 55
+
+    (12) comp -> DIFFERENT . exp
+    (13) exp -> . termino op
+    (14) exp -> . termino
+    (17) termino -> . factor
+    (18) termino -> . factor termino_aux
+    (21) factor -> . LEFTPAR expresion RIGHTPAR
+    (22) factor -> . factor_aux
+    (23) factor_aux -> . PLUS varcte
+    (24) factor_aux -> . MINUS varcte
+    (25) factor_aux -> . varcte
+    (26) varcte -> . ID
+    (27) varcte -> . CTEI
+    (28) varcte -> . CTEF
+
+    LEFTPAR         shift and go to state 37
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 41
+    ID              shift and go to state 32
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    exp                            shift and go to state 73
+    termino                        shift and go to state 35
+    factor                         shift and go to state 36
+    factor_aux                     shift and go to state 38
+    varcte                         shift and go to state 40
+
+state 56
+
+    (13) exp -> termino op .
+
+    LESS            reduce using rule 13 (exp -> termino op .)
+    GREATER         reduce using rule 13 (exp -> termino op .)
+    DIFFERENT       reduce using rule 13 (exp -> termino op .)
+    SEMICOLON       reduce using rule 13 (exp -> termino op .)
+    DOT             reduce using rule 13 (exp -> termino op .)
+    RIGHTPAR        reduce using rule 13 (exp -> termino op .)
+
+
+state 57
+
+    (15) op -> PLUS . exp
+    (13) exp -> . termino op
+    (14) exp -> . termino
+    (17) termino -> . factor
+    (18) termino -> . factor termino_aux
+    (21) factor -> . LEFTPAR expresion RIGHTPAR
+    (22) factor -> . factor_aux
+    (23) factor_aux -> . PLUS varcte
+    (24) factor_aux -> . MINUS varcte
+    (25) factor_aux -> . varcte
+    (26) varcte -> . ID
+    (27) varcte -> . CTEI
+    (28) varcte -> . CTEF
+
+    LEFTPAR         shift and go to state 37
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 41
+    ID              shift and go to state 32
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    exp                            shift and go to state 74
+    termino                        shift and go to state 35
+    factor                         shift and go to state 36
+    factor_aux                     shift and go to state 38
+    varcte                         shift and go to state 40
+
+state 58
+
+    (16) op -> MINUS . exp
+    (13) exp -> . termino op
+    (14) exp -> . termino
+    (17) termino -> . factor
+    (18) termino -> . factor termino_aux
+    (21) factor -> . LEFTPAR expresion RIGHTPAR
+    (22) factor -> . factor_aux
+    (23) factor_aux -> . PLUS varcte
+    (24) factor_aux -> . MINUS varcte
+    (25) factor_aux -> . varcte
+    (26) varcte -> . ID
+    (27) varcte -> . CTEI
+    (28) varcte -> . CTEF
+
+    LEFTPAR         shift and go to state 37
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 41
+    ID              shift and go to state 32
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    exp                            shift and go to state 75
+    termino                        shift and go to state 35
+    factor                         shift and go to state 36
+    factor_aux                     shift and go to state 38
+    varcte                         shift and go to state 40
+
+state 59
+
+    (18) termino -> factor termino_aux .
+
+    PLUS            reduce using rule 18 (termino -> factor termino_aux .)
+    MINUS           reduce using rule 18 (termino -> factor termino_aux .)
+    LESS            reduce using rule 18 (termino -> factor termino_aux .)
+    GREATER         reduce using rule 18 (termino -> factor termino_aux .)
+    DIFFERENT       reduce using rule 18 (termino -> factor termino_aux .)
+    SEMICOLON       reduce using rule 18 (termino -> factor termino_aux .)
+    DOT             reduce using rule 18 (termino -> factor termino_aux .)
+    RIGHTPAR        reduce using rule 18 (termino -> factor termino_aux .)
+
+
+state 60
+
+    (19) termino_aux -> MULTIPLY . termino
+    (17) termino -> . factor
+    (18) termino -> . factor termino_aux
+    (21) factor -> . LEFTPAR expresion RIGHTPAR
+    (22) factor -> . factor_aux
+    (23) factor_aux -> . PLUS varcte
+    (24) factor_aux -> . MINUS varcte
+    (25) factor_aux -> . varcte
+    (26) varcte -> . ID
+    (27) varcte -> . CTEI
+    (28) varcte -> . CTEF
+
+    LEFTPAR         shift and go to state 37
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 41
+    ID              shift and go to state 32
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    termino                        shift and go to state 76
+    factor                         shift and go to state 36
+    factor_aux                     shift and go to state 38
+    varcte                         shift and go to state 40
+
+state 61
+
+    (20) termino_aux -> DIVIDE . termino
+    (17) termino -> . factor
+    (18) termino -> . factor termino_aux
+    (21) factor -> . LEFTPAR expresion RIGHTPAR
+    (22) factor -> . factor_aux
+    (23) factor_aux -> . PLUS varcte
+    (24) factor_aux -> . MINUS varcte
+    (25) factor_aux -> . varcte
+    (26) varcte -> . ID
+    (27) varcte -> . CTEI
+    (28) varcte -> . CTEF
+
+    LEFTPAR         shift and go to state 37
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 41
+    ID              shift and go to state 32
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    termino                        shift and go to state 77
+    factor                         shift and go to state 36
+    factor_aux                     shift and go to state 38
+    varcte                         shift and go to state 40
+
+state 62
+
+    (21) factor -> LEFTPAR expresion . RIGHTPAR
+
+    RIGHTPAR        shift and go to state 78
+
+
+state 63
+
+    (23) factor_aux -> PLUS varcte .
+
+    MULTIPLY        reduce using rule 23 (factor_aux -> PLUS varcte .)
+    DIVIDE          reduce using rule 23 (factor_aux -> PLUS varcte .)
+    PLUS            reduce using rule 23 (factor_aux -> PLUS varcte .)
+    MINUS           reduce using rule 23 (factor_aux -> PLUS varcte .)
+    LESS            reduce using rule 23 (factor_aux -> PLUS varcte .)
+    GREATER         reduce using rule 23 (factor_aux -> PLUS varcte .)
+    DIFFERENT       reduce using rule 23 (factor_aux -> PLUS varcte .)
+    SEMICOLON       reduce using rule 23 (factor_aux -> PLUS varcte .)
+    DOT             reduce using rule 23 (factor_aux -> PLUS varcte .)
+    RIGHTPAR        reduce using rule 23 (factor_aux -> PLUS varcte .)
+
+
+state 64
+
+    (24) factor_aux -> MINUS varcte .
+
+    MULTIPLY        reduce using rule 24 (factor_aux -> MINUS varcte .)
+    DIVIDE          reduce using rule 24 (factor_aux -> MINUS varcte .)
+    PLUS            reduce using rule 24 (factor_aux -> MINUS varcte .)
+    MINUS           reduce using rule 24 (factor_aux -> MINUS varcte .)
+    LESS            reduce using rule 24 (factor_aux -> MINUS varcte .)
+    GREATER         reduce using rule 24 (factor_aux -> MINUS varcte .)
+    DIFFERENT       reduce using rule 24 (factor_aux -> MINUS varcte .)
+    SEMICOLON       reduce using rule 24 (factor_aux -> MINUS varcte .)
+    DOT             reduce using rule 24 (factor_aux -> MINUS varcte .)
+    RIGHTPAR        reduce using rule 24 (factor_aux -> MINUS varcte .)
+
+
+state 65
+
+    (5) condicion -> condicion_aux bloque ELSE bloque . SEMICOLON
+
+    SEMICOLON       shift and go to state 79
+
+
+state 66
+
+    (31) escritura -> PRINT LEFTPAR aux_escritura RIGHTPAR . SEMICOLON
+
+    SEMICOLON       shift and go to state 80
+
+
+state 67
+
+    (33) aux_escritura -> expresion DOT . aux_escritura
+    (32) aux_escritura -> . expresion
+    (33) aux_escritura -> . expresion DOT aux_escritura
+    (34) aux_escritura -> . CTESTRING DOT aux_escritura
+    (8) expresion -> . exp comp
+    (9) expresion -> . exp
+    (13) exp -> . termino op
+    (14) exp -> . termino
+    (17) termino -> . factor
+    (18) termino -> . factor termino_aux
+    (21) factor -> . LEFTPAR expresion RIGHTPAR
+    (22) factor -> . factor_aux
+    (23) factor_aux -> . PLUS varcte
+    (24) factor_aux -> . MINUS varcte
+    (25) factor_aux -> . varcte
+    (26) varcte -> . ID
+    (27) varcte -> . CTEI
+    (28) varcte -> . CTEF
+
+    CTESTRING       shift and go to state 48
+    LEFTPAR         shift and go to state 37
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 41
+    ID              shift and go to state 32
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    expresion                      shift and go to state 47
+    aux_escritura                  shift and go to state 81
+    exp                            shift and go to state 34
+    termino                        shift and go to state 35
+    factor                         shift and go to state 36
+    factor_aux                     shift and go to state 38
+    varcte                         shift and go to state 40
+
+state 68
+
+    (34) aux_escritura -> CTESTRING DOT . aux_escritura
+    (32) aux_escritura -> . expresion
+    (33) aux_escritura -> . expresion DOT aux_escritura
+    (34) aux_escritura -> . CTESTRING DOT aux_escritura
+    (8) expresion -> . exp comp
+    (9) expresion -> . exp
+    (13) exp -> . termino op
+    (14) exp -> . termino
+    (17) termino -> . factor
+    (18) termino -> . factor termino_aux
+    (21) factor -> . LEFTPAR expresion RIGHTPAR
+    (22) factor -> . factor_aux
+    (23) factor_aux -> . PLUS varcte
+    (24) factor_aux -> . MINUS varcte
+    (25) factor_aux -> . varcte
+    (26) varcte -> . ID
+    (27) varcte -> . CTEI
+    (28) varcte -> . CTEF
+
+    CTESTRING       shift and go to state 48
+    LEFTPAR         shift and go to state 37
+    PLUS            shift and go to state 39
+    MINUS           shift and go to state 41
+    ID              shift and go to state 32
+    CTEI            shift and go to state 42
+    CTEF            shift and go to state 43
+
+    aux_escritura                  shift and go to state 82
+    expresion                      shift and go to state 47
+    exp                            shift and go to state 34
+    termino                        shift and go to state 35
+    factor                         shift and go to state 36
+    factor_aux                     shift and go to state 38
+    varcte                         shift and go to state 40
+
+state 69
+
+    (6) condicion_aux -> IF LEFTPAR expresion RIGHTPAR .
+
+    LEFTCURL        reduce using rule 6 (condicion_aux -> IF LEFTPAR expresion RIGHTPAR .)
+
+
+state 70
+
+    (37) aux_var -> ID COLON tipo SEMICOLON aux_var .
+
+    LEFTCURL        reduce using rule 37 (aux_var -> ID COLON tipo SEMICOLON aux_var .)
+
+
+state 71
+
+    (10) comp -> LESS exp .
+
+    SEMICOLON       reduce using rule 10 (comp -> LESS exp .)
+    DOT             reduce using rule 10 (comp -> LESS exp .)
+    RIGHTPAR        reduce using rule 10 (comp -> LESS exp .)
+
+
+state 72
+
+    (11) comp -> GREATER exp .
+
+    SEMICOLON       reduce using rule 11 (comp -> GREATER exp .)
+    DOT             reduce using rule 11 (comp -> GREATER exp .)
+    RIGHTPAR        reduce using rule 11 (comp -> GREATER exp .)
+
+
+state 73
+
+    (12) comp -> DIFFERENT exp .
+
+    SEMICOLON       reduce using rule 12 (comp -> DIFFERENT exp .)
+    DOT             reduce using rule 12 (comp -> DIFFERENT exp .)
+    RIGHTPAR        reduce using rule 12 (comp -> DIFFERENT exp .)
+
+
+state 74
+
+    (15) op -> PLUS exp .
+
+    LESS            reduce using rule 15 (op -> PLUS exp .)
+    GREATER         reduce using rule 15 (op -> PLUS exp .)
+    DIFFERENT       reduce using rule 15 (op -> PLUS exp .)
+    SEMICOLON       reduce using rule 15 (op -> PLUS exp .)
+    DOT             reduce using rule 15 (op -> PLUS exp .)
+    RIGHTPAR        reduce using rule 15 (op -> PLUS exp .)
+
+
+state 75
+
+    (16) op -> MINUS exp .
+
+    LESS            reduce using rule 16 (op -> MINUS exp .)
+    GREATER         reduce using rule 16 (op -> MINUS exp .)
+    DIFFERENT       reduce using rule 16 (op -> MINUS exp .)
+    SEMICOLON       reduce using rule 16 (op -> MINUS exp .)
+    DOT             reduce using rule 16 (op -> MINUS exp .)
+    RIGHTPAR        reduce using rule 16 (op -> MINUS exp .)
+
+
+state 76
+
+    (19) termino_aux -> MULTIPLY termino .
+
+    PLUS            reduce using rule 19 (termino_aux -> MULTIPLY termino .)
+    MINUS           reduce using rule 19 (termino_aux -> MULTIPLY termino .)
+    LESS            reduce using rule 19 (termino_aux -> MULTIPLY termino .)
+    GREATER         reduce using rule 19 (termino_aux -> MULTIPLY termino .)
+    DIFFERENT       reduce using rule 19 (termino_aux -> MULTIPLY termino .)
+    SEMICOLON       reduce using rule 19 (termino_aux -> MULTIPLY termino .)
+    DOT             reduce using rule 19 (termino_aux -> MULTIPLY termino .)
+    RIGHTPAR        reduce using rule 19 (termino_aux -> MULTIPLY termino .)
+
+
+state 77
+
+    (20) termino_aux -> DIVIDE termino .
+
+    PLUS            reduce using rule 20 (termino_aux -> DIVIDE termino .)
+    MINUS           reduce using rule 20 (termino_aux -> DIVIDE termino .)
+    LESS            reduce using rule 20 (termino_aux -> DIVIDE termino .)
+    GREATER         reduce using rule 20 (termino_aux -> DIVIDE termino .)
+    DIFFERENT       reduce using rule 20 (termino_aux -> DIVIDE termino .)
+    SEMICOLON       reduce using rule 20 (termino_aux -> DIVIDE termino .)
+    DOT             reduce using rule 20 (termino_aux -> DIVIDE termino .)
+    RIGHTPAR        reduce using rule 20 (termino_aux -> DIVIDE termino .)
+
+
+state 78
+
+    (21) factor -> LEFTPAR expresion RIGHTPAR .
+
+    MULTIPLY        reduce using rule 21 (factor -> LEFTPAR expresion RIGHTPAR .)
+    DIVIDE          reduce using rule 21 (factor -> LEFTPAR expresion RIGHTPAR .)
+    PLUS            reduce using rule 21 (factor -> LEFTPAR expresion RIGHTPAR .)
+    MINUS           reduce using rule 21 (factor -> LEFTPAR expresion RIGHTPAR .)
+    LESS            reduce using rule 21 (factor -> LEFTPAR expresion RIGHTPAR .)
+    GREATER         reduce using rule 21 (factor -> LEFTPAR expresion RIGHTPAR .)
+    DIFFERENT       reduce using rule 21 (factor -> LEFTPAR expresion RIGHTPAR .)
+    SEMICOLON       reduce using rule 21 (factor -> LEFTPAR expresion RIGHTPAR .)
+    DOT             reduce using rule 21 (factor -> LEFTPAR expresion RIGHTPAR .)
+    RIGHTPAR        reduce using rule 21 (factor -> LEFTPAR expresion RIGHTPAR .)
+
+
+state 79
+
+    (5) condicion -> condicion_aux bloque ELSE bloque SEMICOLON .
+
+    ID              reduce using rule 5 (condicion -> condicion_aux bloque ELSE bloque SEMICOLON .)
+    PRINT           reduce using rule 5 (condicion -> condicion_aux bloque ELSE bloque SEMICOLON .)
+    IF              reduce using rule 5 (condicion -> condicion_aux bloque ELSE bloque SEMICOLON .)
+    RIGHTCURL       reduce using rule 5 (condicion -> condicion_aux bloque ELSE bloque SEMICOLON .)
+
+
+state 80
+
+    (31) escritura -> PRINT LEFTPAR aux_escritura RIGHTPAR SEMICOLON .
+
+    ID              reduce using rule 31 (escritura -> PRINT LEFTPAR aux_escritura RIGHTPAR SEMICOLON .)
+    PRINT           reduce using rule 31 (escritura -> PRINT LEFTPAR aux_escritura RIGHTPAR SEMICOLON .)
+    IF              reduce using rule 31 (escritura -> PRINT LEFTPAR aux_escritura RIGHTPAR SEMICOLON .)
+    RIGHTCURL       reduce using rule 31 (escritura -> PRINT LEFTPAR aux_escritura RIGHTPAR SEMICOLON .)
+
+
+state 81
+
+    (33) aux_escritura -> expresion DOT aux_escritura .
+
+    RIGHTPAR        reduce using rule 33 (aux_escritura -> expresion DOT aux_escritura .)
+
+
+state 82
+
+    (34) aux_escritura -> CTESTRING DOT aux_escritura .
+
+    RIGHTPAR        reduce using rule 34 (aux_escritura -> CTESTRING DOT aux_escritura .)
+
