@@ -166,6 +166,7 @@ def p_aux_escritura(p):
   aux_escritura : expresion
                 | expresion DOT aux_escritura
                 | CTESTRING DOT aux_escritura
+                | CTESTRING
   '''
 def p_vars(p):
   '''
@@ -198,7 +199,7 @@ def p_aux_bloque(p):
 def p_error(p): 
   global error
   error = True
-  print("ERROR {}".format(p), error)
+  #print("ERROR {}".format(p), error)
 
 def p_empty(p):
   '''
@@ -210,17 +211,23 @@ parser = yacc.yacc()
 
 if __name__ == '__main__':
   try:
-    arch_name = 'prueba.txt'
+    arch_name = 'prueba-2.txt'
     arch = open(arch_name,'r')
-    print("Nombre de archivo a leer: " + arch_name)
+    print("Nombre de archivo " + arch_name)
     archivo = arch.read()
     arch.close()
     yacc.parse(archivo)
+    # #print(lexer.input(archivo))
+    # while True:
+    #   tok = lexer.token()
+    #   if not tok:
+    #       break      # No more input
+    #   print(tok)
 
     if error: 
       print("hay errores de sintaxis")
     else:
-      print("completado")  
+      print("apropiado")  
 
 
   except EOFError:

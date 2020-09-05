@@ -1,0 +1,15 @@
+program prueba1:
+var id01 : int;
+{
+  id01 = 3;
+  print("ahaslka");
+  if(3 < 4){
+    id01 = 4;
+  } else {
+    num = num + 4;
+    num = 3 - 4;
+    num = 3 * 4;
+    num = 3 / 4
+    print("hola");
+  };
+}
